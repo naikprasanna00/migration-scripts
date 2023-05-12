@@ -48,6 +48,12 @@ function transformEntry(entry, model) {
         res[key] = JSON.stringify(entry[key]);
         return;
       }
+  
+      if(key.charAt(0)===key.charAt(0).toUpperCase()){
+        console.log(key)
+        key= key.charAt(0).toLowerCase() + key.slice(1);
+        console.log("changed key to",key)
+      }
 
       res[key] = entry[key];
     }
