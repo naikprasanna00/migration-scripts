@@ -7,6 +7,7 @@ const { singular } = pluralize;
 const knex = require('./knex');
 const schemaInspector = require('knex-schema-inspector').default;
 const inspector = schemaInspector(knex);
+const { ggCollectionNames } = require('../collections-names')
 const mongo = require('./mongo');
 const { transformEntry } = require('./transform');
 const idMap = require('./id-map');
@@ -95,7 +96,8 @@ async function run() {
 
     const db = mongo.db();
 
-    const models = await getModelDefs(db);
+    const dbmodels = await getModelDefs(db);
+    const models = dbmodels.filter(model => ggCollectionNames.includes(model?.collectionName))
 
     const modelMap = models.reduce((acc, model) => {
       acc[model.uid] = model;
@@ -115,8 +117,14 @@ async function run() {
         const row = transformEntry(entry, model);
 
         row.id = idMap.next(entry._id, model.collectionName);
-
+try{
         await knex(model.collectionName).insert(row);
+}catch(err){
+  if(err.code==='22001'){
+console.log("value too long for type character varying(255) in", model.collectionName)
+  }
+}
+
       }
 
       await cursor.close();
