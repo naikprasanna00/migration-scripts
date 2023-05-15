@@ -8,7 +8,7 @@ exports.ggCollectionNames = [
     "components_gg_misc_components_company_contents",
     "components_gg_misc_components_display_contents",
     "components_gg_misc_components_empty_boxes",
-    "components_gg_misc_components_gg_territory_card_companies",
+    "components_gg_misc_components_territory_card_companies",
     "components_gg_misc_components_grid_config_numbers",
     "components_gg_misc_components_grid_config_units",
     "components_misc_components_headers",
